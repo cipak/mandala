@@ -2,30 +2,35 @@
 <html>
 <head>
 <style>
-body {
+html, body, canvas {
+	overflow: hidden;
 	margin: 0;
 	padding: 0;
 	background-color: #000;
 }
-canvas {
-	xborder: 1px solid gray;
-}
 </style>
-
 </head>
-
 
 <body>
 
-<canvas id="c" width="1000" height="1000"></canvas>
+<canvas id="c" width="800" height="500"></canvas>
 
 <script>
 var PI = Math.PI;
 var cos = function(a) { return Math.cos(a*PI/180); };
 var sin = function(a) { return Math.sin(a*PI/180); };
-var ox = 500, oy = 500;
+
+var winWidth = window.innerWidth;
+var winHeight = window.innerHeight;
 
 var canvas = document.getElementById('c');
+
+canvas.attributes.width.value = winWidth;
+canvas.attributes.height.value = winHeight;
+
+var ox = winWidth/2;
+var oy = winHeight/2;
+
 var ctx = canvas.getContext('2d');
 ctx.translate(ox, oy);
 
