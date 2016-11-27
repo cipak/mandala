@@ -1,0 +1,92 @@
+<!doctype html>
+<html>
+<head>
+<style>
+body {
+	margin: 0;
+	padding: 0;
+	background-color: #000;
+}
+canvas {
+	xborder: 1px solid gray;
+}
+</style>
+
+</head>
+
+
+<body>
+
+<canvas id="c" width="1000" height="1000"></canvas>
+
+<script>
+var PI = Math.PI;
+var cos = function(a) { return Math.cos(a*PI/180); };
+var sin = function(a) { return Math.sin(a*PI/180); };
+var ox = 500, oy = 500;
+
+var canvas = document.getElementById('c');
+var ctx = canvas.getContext('2d');
+ctx.translate(ox, oy);
+
+var crtx = 0, crty = 0;
+
+ctx.strokeStyle='#444';
+drawTo(ox*4/5, 0);
+drawTo(0, 0);
+ctx.strokeStyle='#ccc';
+
+var on = false;
+
+canvas.addEventListener('mousedown', function(event) {
+	crtx = event.pageX - ox;
+	crty = event.pageY - oy;
+	on = true;
+	drawTo(crtx+1, crty+1);
+});
+
+document.addEventListener('mouseup', function() {
+	on = false;
+})
+
+
+canvas.addEventListener('mousemove', function(event) {
+	if(on) {
+		drawTo(event.pageX - ox, event.pageY - oy);
+	}
+});
+
+function drawTo(x, y) {
+	if(x === crtx && y === crty) {
+		return;
+	}
+	//ctx.rotate(0.1);
+
+	for(var a=0; a<360; a+=10) {
+		ctx.beginPath();
+		ctx.moveTo(rotx(crtx, crty, a), roty(crtx, crty, a));
+		ctx.lineTo(rotx(x, y, a), roty(x, y, a));
+		ctx.stroke();
+
+		ctx.beginPath();
+		ctx.moveTo(rotx(crtx, -crty, a), roty(crtx, -crty, a));
+		ctx.lineTo(rotx(x, -y, a), roty(x, -y, a));
+		ctx.stroke();
+	}
+
+	crtx = x;
+	crty = y;
+}
+
+function roty(x, y, a) {
+	return y*cos(a) - x*sin(a);
+}
+function rotx(x, y, a) {
+	return y*sin(a) + x*cos(a);
+}
+
+</script>
+
+</body>
+</html>
+
